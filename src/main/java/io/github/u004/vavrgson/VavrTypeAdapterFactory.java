@@ -40,25 +40,34 @@ public final class VavrTypeAdapterFactory implements TypeAdapterFactory {
 	/**
 	 * {@inheritDoc}
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-		Object typeAdapter = null;
-
-		Class<?> clazz = type.getRawType();
-
-		if (clazz == Option.class) {
-			typeAdapter = new OptionTypeAdapter();
-		} else if (clazz == Lazy.class) {
-			typeAdapter = new LazyTypeAdapter();
-		} else if (clazz == Try.class) {
-			typeAdapter = new TryTypeAdapter();
-		}
+		Object typeAdapter = getTypeAdapter(type.getRawType());
 
 		if (typeAdapter == null) {
 			return null;
 		}
 
-		//noinspection unchecked
-		return new TreeTypeAdapter<>((JsonSerializer<T>) typeAdapter, (JsonDeserializer<T>) typeAdapter, gson, type, null, false);
+		JsonSerializer<T> serializer = (JsonSerializer<T>) typeAdapter;
+		JsonDeserializer<T> deserializer = (JsonDeserializer<T>) typeAdapter;
+
+		return new TreeTypeAdapter<>(serializer, deserializer, gson, type, null, false);
+	}
+
+	private static Object getTypeAdapter(Class<?> clazz) {
+		if (clazz == Option.class) {
+			return new OptionTypeAdapter();
+		}
+
+		if (clazz == Lazy.class) {
+			return new LazyTypeAdapter();
+		}
+
+		if (clazz == Try.class) {
+			return new TryTypeAdapter();
+		}
+
+		return null;
 	}
 }
