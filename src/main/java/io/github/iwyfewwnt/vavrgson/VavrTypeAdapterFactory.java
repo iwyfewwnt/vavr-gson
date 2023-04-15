@@ -64,6 +64,12 @@ public final class VavrTypeAdapterFactory implements TypeAdapterFactory {
 		return new TreeTypeAdapter<>(serializer, deserializer, gson, type, null, false);
 	}
 
+	/**
+	 * Get a type adapter for the provided class.
+	 *
+	 * @param clazz		class type of the type adapter
+	 * @return			type adapter or {@code null}
+	 */
 	private static Object getTypeAdapter(Class<?> clazz) {
 		if (clazz == Option.class) {
 			return new VavrOptionJsonDeserializer();
