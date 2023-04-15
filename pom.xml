@@ -9,7 +9,7 @@
     <version>0.2.0-SNAPSHOT</version>
 
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>Set of Gson deserializers &amp; serializers for the Vavr library</description>
+    <description>Set of Vavr JSON deserializers for google/gson w/ Java 8+ support</description>
     <url>https://github.com/iwyfewwnt/vavr-gson</url>
 
     <licenses>
