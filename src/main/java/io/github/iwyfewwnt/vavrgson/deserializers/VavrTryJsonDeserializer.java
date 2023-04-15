@@ -23,7 +23,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Try} type.
+ * A {@link Try} JSON deserializer.
  */
 @SuppressWarnings("unused")
 public final class VavrTryJsonDeserializer implements JsonDeserializer<Try<?>> {

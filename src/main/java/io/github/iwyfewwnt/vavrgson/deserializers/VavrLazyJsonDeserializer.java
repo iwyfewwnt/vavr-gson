@@ -23,7 +23,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Lazy} type.
+ * A {@link Lazy} JSON deserializer.
  */
 @SuppressWarnings("unused")
 public final class VavrLazyJsonDeserializer implements JsonDeserializer<Lazy<?>> {

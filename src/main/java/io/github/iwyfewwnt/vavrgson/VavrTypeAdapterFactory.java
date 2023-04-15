@@ -27,7 +27,7 @@ import io.vavr.control.Option;
 import io.vavr.control.Try;
 
 /**
- * A type adapter factory for Vavr's types.
+ * A type adapter factory.
  *
  * <p><hr>
  * <pre>{@code
