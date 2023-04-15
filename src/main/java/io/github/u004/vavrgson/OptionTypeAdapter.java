@@ -24,17 +24,9 @@ import java.lang.reflect.Type;
 
 /**
  * A JSON type adapter for Vavr's {@link Option} type.
- *
- * <p><hr>
- * <pre>{@code
- *     new GsonBuilder()
- *             .registerTypeAdapter(Option.class, new OptionDeserializer())
- *             .create();
- * }</pre>
- * <hr>
  */
 @SuppressWarnings("unused")
-public final class OptionTypeAdapter implements JsonDeserializer<Option<?>>, JsonSerializer<Option<?>> {
+final class OptionTypeAdapter implements JsonDeserializer<Option<?>>, JsonSerializer<Option<?>> {
 
 	/**
 	 * {@inheritDoc}
@@ -49,6 +41,10 @@ public final class OptionTypeAdapter implements JsonDeserializer<Option<?>>, Jso
 	 */
 	@Override
 	public JsonElement serialize(Option<?> src, Type type, JsonSerializationContext context) {
-		return context.serialize(src.getOrNull(), ((ParameterizedType) type).getActualTypeArguments()[0]);
+		if (src == null) {
+			return null;
+		}
+
+		return context.serialize(src, ((ParameterizedType) type).getActualTypeArguments()[0]);
 	}
 }

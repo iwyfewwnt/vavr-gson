@@ -24,17 +24,9 @@ import java.lang.reflect.Type;
 
 /**
  * A JSON type adapter for Vavr's {@link Try} type.
- *
- * <p><hr>
- * <pre>{@code
- *     new GsonBuilder()
- *             .registerTypeAdapter(Try.class, new TryTypeAdapter())
- *             .create();
- * }</pre>
- * <hr>
  */
 @SuppressWarnings("unused")
-public final class TryTypeAdapter implements JsonDeserializer<Try<?>>, JsonSerializer<Try<?>> {
+final class TryTypeAdapter implements JsonDeserializer<Try<?>>, JsonSerializer<Try<?>> {
 
 	/**
 	 * {@inheritDoc}
@@ -55,6 +47,10 @@ public final class TryTypeAdapter implements JsonDeserializer<Try<?>>, JsonSeria
 	 */
 	@Override
 	public JsonElement serialize(Try<?> src, Type type, JsonSerializationContext context) {
+		if (src == null) {
+			return null;
+		}
+
 		return context.serialize(src.getOrNull(), ((ParameterizedType) type).getActualTypeArguments()[0]);
 	}
 }

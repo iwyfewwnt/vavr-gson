@@ -24,17 +24,9 @@ import java.lang.reflect.Type;
 
 /**
  * A JSON type adapter for Vavr's {@link Lazy} type.
- *
- * <p><hr>
- * <pre>{@code
- *     new GsonBuilder()
- *             .registerTypeAdapter(Lazy.class, new LazyTypeAdapter())
- *             .create();
- * }</pre>
- * <hr>
  */
 @SuppressWarnings("unused")
-public final class LazyTypeAdapter implements JsonDeserializer<Lazy<?>>, JsonSerializer<Lazy<?>> {
+final class LazyTypeAdapter implements JsonDeserializer<Lazy<?>>, JsonSerializer<Lazy<?>> {
 
 	/**
 	 * {@inheritDoc}
@@ -49,6 +41,10 @@ public final class LazyTypeAdapter implements JsonDeserializer<Lazy<?>>, JsonSer
 	 */
 	@Override
 	public JsonElement serialize(Lazy<?> src, Type type, JsonSerializationContext context) {
-		return context.serialize(src.get(), ((ParameterizedType) type).getActualTypeArguments()[0]);
+		if (src == null) {
+			return null;
+		}
+
+		return context.serialize(src, ((ParameterizedType) type).getActualTypeArguments()[0]);
 	}
 }
