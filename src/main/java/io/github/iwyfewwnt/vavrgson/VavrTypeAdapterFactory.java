@@ -67,6 +67,7 @@ public final class VavrTypeAdapterFactory implements TypeAdapterFactory {
 			deserializer = (JsonDeserializer<T>) typeAdapter;
 		}
 
+		// #nullSafe argument is added since google/gson#2.10
 		return new TreeTypeAdapter<>(serializer, deserializer, gson, type, null, false);
 	}
 
