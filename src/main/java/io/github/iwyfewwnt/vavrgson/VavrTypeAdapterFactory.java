@@ -48,8 +48,15 @@ public final class VavrTypeAdapterFactory implements TypeAdapterFactory {
 			return null;
 		}
 
-		JsonSerializer<T> serializer = (JsonSerializer<T>) typeAdapter;
-		JsonDeserializer<T> deserializer = (JsonDeserializer<T>) typeAdapter;
+		JsonSerializer<T> serializer = null;
+		if (typeAdapter instanceof JsonSerializer) {
+			serializer = (JsonSerializer<T>) typeAdapter;
+		}
+
+		JsonDeserializer<T> deserializer = null;
+		if (typeAdapter instanceof JsonDeserializer) {
+			deserializer = (JsonDeserializer<T>) typeAdapter;
+		}
 
 		return new TreeTypeAdapter<>(serializer, deserializer, gson, type, null, false);
 	}
