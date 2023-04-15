@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.github.iwyfewwnt.vavrgson;
+package io.github.iwyfewwnt.vavrgson.deserializers;
 
 import com.google.gson.*;
 import io.vavr.control.Try;
@@ -26,7 +26,7 @@ import java.lang.reflect.Type;
  * A JSON type adapter for Vavr's {@link Try} type.
  */
 @SuppressWarnings("unused")
-final class VavrTryJsonDeserializer implements JsonDeserializer<Try<?>> {
+public final class VavrTryJsonDeserializer implements JsonDeserializer<Try<?>> {
 
 	/**
 	 * {@inheritDoc}

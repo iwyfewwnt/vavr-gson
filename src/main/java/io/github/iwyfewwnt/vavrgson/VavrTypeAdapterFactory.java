@@ -19,6 +19,9 @@ package io.github.iwyfewwnt.vavrgson;
 import com.google.gson.*;
 import com.google.gson.internal.bind.TreeTypeAdapter;
 import com.google.gson.reflect.TypeToken;
+import io.github.iwyfewwnt.vavrgson.deserializers.VavrLazyJsonDeserializer;
+import io.github.iwyfewwnt.vavrgson.deserializers.VavrOptionJsonDeserializer;
+import io.github.iwyfewwnt.vavrgson.deserializers.VavrTryJsonDeserializer;
 import io.vavr.Lazy;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
@@ -63,15 +66,15 @@ public final class VavrTypeAdapterFactory implements TypeAdapterFactory {
 
 	private static Object getTypeAdapter(Class<?> clazz) {
 		if (clazz == Option.class) {
-			return new OptionTypeAdapter();
+			return new VavrOptionJsonDeserializer();
 		}
 
 		if (clazz == Lazy.class) {
-			return new LazyTypeAdapter();
+			return new VavrLazyJsonDeserializer();
 		}
 
 		if (clazz == Try.class) {
-			return new TryTypeAdapter();
+			return new VavrTryJsonDeserializer();
 		}
 
 		return null;
