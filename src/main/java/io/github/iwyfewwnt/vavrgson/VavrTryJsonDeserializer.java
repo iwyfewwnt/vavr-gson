@@ -17,34 +17,28 @@
 package io.github.iwyfewwnt.vavrgson;
 
 import com.google.gson.*;
-import io.vavr.control.Option;
+import io.vavr.control.Try;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Option} type.
+ * A JSON type adapter for Vavr's {@link Try} type.
  */
 @SuppressWarnings("unused")
-final class OptionTypeAdapter implements JsonDeserializer<Option<?>>, JsonSerializer<Option<?>> {
+final class VavrTryJsonDeserializer implements JsonDeserializer<Try<?>> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Option<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		return Option.of(context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
-	}
+	public Try<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+		Object object = context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public JsonElement serialize(Option<?> src, Type type, JsonSerializationContext context) {
-		if (src == null) {
-			return null;
+		if (object == null) {
+			return Try.failure(new NullPointerException());
 		}
 
-		return context.serialize(src.getOrNull(), ((ParameterizedType) type).getActualTypeArguments()[0]);
+		return Try.success(object);
 	}
 }

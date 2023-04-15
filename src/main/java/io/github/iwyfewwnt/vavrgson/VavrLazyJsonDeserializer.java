@@ -17,40 +17,22 @@
 package io.github.iwyfewwnt.vavrgson;
 
 import com.google.gson.*;
-import io.vavr.control.Try;
+import io.vavr.Lazy;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Try} type.
+ * A JSON type adapter for Vavr's {@link Lazy} type.
  */
 @SuppressWarnings("unused")
-final class TryTypeAdapter implements JsonDeserializer<Try<?>>, JsonSerializer<Try<?>> {
+final class VavrLazyJsonDeserializer implements JsonDeserializer<Lazy<?>> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Try<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		Object object = context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]);
-
-		if (object == null) {
-			return Try.failure(new NullPointerException());
-		}
-
-		return Try.success(object);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public JsonElement serialize(Try<?> src, Type type, JsonSerializationContext context) {
-		if (src == null) {
-			return null;
-		}
-
-		return context.serialize(src.getOrNull(), ((ParameterizedType) type).getActualTypeArguments()[0]);
+	public Lazy<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+		return Lazy.of(() -> context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
 	}
 }

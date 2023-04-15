@@ -17,34 +17,22 @@
 package io.github.iwyfewwnt.vavrgson;
 
 import com.google.gson.*;
-import io.vavr.Lazy;
+import io.vavr.control.Option;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Lazy} type.
+ * A JSON type adapter for Vavr's {@link Option} type.
  */
 @SuppressWarnings("unused")
-final class LazyTypeAdapter implements JsonDeserializer<Lazy<?>>, JsonSerializer<Lazy<?>> {
+final class VavrOptionJsonDeserializer implements JsonDeserializer<Option<?>> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Lazy<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		return Lazy.of(() -> context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public JsonElement serialize(Lazy<?> src, Type type, JsonSerializationContext context) {
-		if (src == null) {
-			return null;
-		}
-
-		return context.serialize(src.getOrNull(), ((ParameterizedType) type).getActualTypeArguments()[0]);
+	public Option<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+		return Option.of(context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
 	}
 }
