@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 u004
+ * Copyright 2023 iwyfewwnt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,39 @@
  * limitations under the License.
  */
 
-package io.github.u004.vavrgson;
+package io.github.iwyfewwnt.vavrgson;
 
 import com.google.gson.*;
-import io.vavr.control.Option;
+import io.vavr.control.Try;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Option} type.
+ * A JSON type adapter for Vavr's {@link Try} type.
  */
 @SuppressWarnings("unused")
-final class OptionTypeAdapter implements JsonDeserializer<Option<?>>, JsonSerializer<Option<?>> {
+final class TryTypeAdapter implements JsonDeserializer<Try<?>>, JsonSerializer<Try<?>> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Option<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		return Option.of(context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
+	public Try<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+		Object object = context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]);
+
+		if (object == null) {
+			return Try.failure(new NullPointerException());
+		}
+
+		return Try.success(object);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public JsonElement serialize(Option<?> src, Type type, JsonSerializationContext context) {
+	public JsonElement serialize(Try<?> src, Type type, JsonSerializationContext context) {
 		if (src == null) {
 			return null;
 		}

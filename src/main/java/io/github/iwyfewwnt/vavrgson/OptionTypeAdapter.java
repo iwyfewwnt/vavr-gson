@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 u004
+ * Copyright 2023 iwyfewwnt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,33 +14,33 @@
  * limitations under the License.
  */
 
-package io.github.u004.vavrgson;
+package io.github.iwyfewwnt.vavrgson;
 
 import com.google.gson.*;
-import io.vavr.Lazy;
+import io.vavr.control.Option;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Lazy} type.
+ * A JSON type adapter for Vavr's {@link Option} type.
  */
 @SuppressWarnings("unused")
-final class LazyTypeAdapter implements JsonDeserializer<Lazy<?>>, JsonSerializer<Lazy<?>> {
+final class OptionTypeAdapter implements JsonDeserializer<Option<?>>, JsonSerializer<Option<?>> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Lazy<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		return Lazy.of(() -> context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
+	public Option<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+		return Option.of(context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public JsonElement serialize(Lazy<?> src, Type type, JsonSerializationContext context) {
+	public JsonElement serialize(Option<?> src, Type type, JsonSerializationContext context) {
 		if (src == null) {
 			return null;
 		}

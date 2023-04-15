@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 u004
+ * Copyright 2023 iwyfewwnt
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,39 +14,33 @@
  * limitations under the License.
  */
 
-package io.github.u004.vavrgson;
+package io.github.iwyfewwnt.vavrgson;
 
 import com.google.gson.*;
-import io.vavr.control.Try;
+import io.vavr.Lazy;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * A JSON type adapter for Vavr's {@link Try} type.
+ * A JSON type adapter for Vavr's {@link Lazy} type.
  */
 @SuppressWarnings("unused")
-final class TryTypeAdapter implements JsonDeserializer<Try<?>>, JsonSerializer<Try<?>> {
+final class LazyTypeAdapter implements JsonDeserializer<Lazy<?>>, JsonSerializer<Lazy<?>> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Try<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		Object object = context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]);
-
-		if (object == null) {
-			return Try.failure(new NullPointerException());
-		}
-
-		return Try.success(object);
+	public Lazy<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
+		return Lazy.of(() -> context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public JsonElement serialize(Try<?> src, Type type, JsonSerializationContext context) {
+	public JsonElement serialize(Lazy<?> src, Type type, JsonSerializationContext context) {
 		if (src == null) {
 			return null;
 		}
