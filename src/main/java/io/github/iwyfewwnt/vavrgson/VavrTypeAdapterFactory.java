@@ -34,13 +34,12 @@ import io.vavr.control.Try;
  * }</pre>
  * <hr>
  */
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "unchecked"})
 public final class VavrTypeAdapterFactory implements TypeAdapterFactory {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
 		Object typeAdapter = getTypeAdapter(type.getRawType());
