@@ -41,6 +41,12 @@ import io.vavr.control.Try;
 public final class VavrTypeAdapterFactory implements TypeAdapterFactory {
 
 	/**
+	 * Initialize a {@link VavrTypeAdapterFactory} instance.
+	 */
+	public VavrTypeAdapterFactory() {
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

@@ -29,6 +29,12 @@ import java.lang.reflect.Type;
 public final class VavrOptionJsonDeserializer implements JsonDeserializer<Option<?>> {
 
 	/**
+	 * Initialize a {@link VavrOptionJsonDeserializer} instance.
+	 */
+	public VavrOptionJsonDeserializer() {
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override

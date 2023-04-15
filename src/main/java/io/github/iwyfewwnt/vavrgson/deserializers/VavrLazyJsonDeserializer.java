@@ -29,6 +29,12 @@ import java.lang.reflect.Type;
 public final class VavrLazyJsonDeserializer implements JsonDeserializer<Lazy<?>> {
 
 	/**
+	 * Initialize a {@link VavrLazyJsonDeserializer} instance.
+	 */
+	public VavrLazyJsonDeserializer() {
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
