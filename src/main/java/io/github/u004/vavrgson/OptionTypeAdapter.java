@@ -45,6 +45,6 @@ final class OptionTypeAdapter implements JsonDeserializer<Option<?>>, JsonSerial
 			return null;
 		}
 
-		return context.serialize(src, ((ParameterizedType) type).getActualTypeArguments()[0]);
+		return context.serialize(src.getOrNull(), ((ParameterizedType) type).getActualTypeArguments()[0]);
 	}
 }
