@@ -38,7 +38,17 @@ public final class VavrOptionJsonDeserializer implements JsonDeserializer<Option
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Option<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		return Option.of(context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
+	public Option<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) {
+		if (json == null || json.isJsonNull()) {
+			return Option.none();
+		}
+
+		try {
+			return Option.of(context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
+
+		return Option.none();
 	}
 }

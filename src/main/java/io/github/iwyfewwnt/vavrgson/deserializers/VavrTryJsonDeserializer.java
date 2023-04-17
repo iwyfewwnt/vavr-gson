@@ -38,13 +38,22 @@ public final class VavrTryJsonDeserializer implements JsonDeserializer<Try<?>> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Try<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		Object object = context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]);
-
-		if (object == null) {
+	public Try<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) {
+		if (json == null || json.isJsonNull()) {
 			return Try.failure(new NullPointerException());
 		}
 
-		return Try.success(object);
+		try {
+			Object obj = context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]);
+			if (obj == null) {
+				return Try.failure(new NullPointerException());
+			}
+
+			return Try.success(obj);
+		} catch (Throwable t) {
+			t.printStackTrace();
+
+			return Try.failure(t);
+		}
 	}
 }

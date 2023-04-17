@@ -38,7 +38,19 @@ public final class VavrLazyJsonDeserializer implements JsonDeserializer<Lazy<?>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Lazy<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) throws JsonParseException {
-		return Lazy.of(() -> context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]));
+	public Lazy<?> deserialize(JsonElement json, Type type, JsonDeserializationContext context) {
+		return Lazy.of(() -> {
+			if (json == null || json.isJsonNull()) {
+				return null;
+			}
+
+			try {
+				return context.deserialize(json, ((ParameterizedType) type).getActualTypeArguments()[0]);
+			} catch (Throwable t) {
+				t.printStackTrace();
+			}
+
+			return null;
+		});
 	}
 }
